@@ -5,7 +5,14 @@ module.exports = {
     './layouts/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        green: {
+          DEFAULT: '#00f260',
+        },
+      },
+    },
+    fontFamily: { kaushan: ['Kaushan Script'] },
   },
   plugins: [],
 };
