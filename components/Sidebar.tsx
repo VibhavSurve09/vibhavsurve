@@ -3,8 +3,21 @@ import { AiFillGithub, AiFillLinkedin, AiFillInstagram } from 'react-icons/ai';
 import { GoLocation } from 'react-icons/go';
 import { GiTie } from 'react-icons/gi';
 import myImage from '../public/images/me.jpeg';
-import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import { init } from 'ityped';
 const Sidebar = () => {
+  const textRef = useRef();
+  useEffect(() => {
+    init(textRef.current, {
+      showCursor: false,
+      strings: [
+        'Web Developer',
+        'Python Developer',
+        'Machine Learning Eng.',
+        'Content Creator',
+      ],
+    });
+  }, []);
   return (
     <div>
       <Image
@@ -16,9 +29,7 @@ const Sidebar = () => {
         <span className='text-green'>Vibhav </span>
         Surve
       </h3>
-      <p className='px-2 py-1 my-3 bg-gray-200 rounded-full'>
-        Web Developer/Machine Learning
-      </p>
+      <p ref={textRef} className='px-2 py-1 my-3 bg-gray-200 rounded-full'></p>
       <a
         className='flex items-center justify-center px-3 py-1 my-3 bg-gray-200 rounded-full'
         download='name'
@@ -28,13 +39,25 @@ const Sidebar = () => {
       </a>
       {/* Social Media Icons */}
       <div className='flex justify-around w-9/12 mx-auto my-5 text-green md:w-full'>
-        <a target='_blank' href='https://github.com/VibhavSurve09'>
+        <a
+          target='_blank'
+          href='https://github.com/VibhavSurve09'
+          rel='noreferrer'
+        >
           <AiFillGithub className='w-8 h-8 cursor-pointer' />
         </a>
-        <a target='_blank' href='https://www.linkedin.com/in/vibhavsurve/'>
+        <a
+          target='_blank'
+          href='https://www.linkedin.com/in/vibhavsurve/'
+          rel='noreferrer'
+        >
           <AiFillLinkedin className='w-8 h-8 cursor-pointer' />
         </a>
-        <a href="href='https://www.instagram.com/vibhavv.af/" target='_blank'>
+        <a
+          href='https://www.instagram.com/vibhavv.af/'
+          target='_blank'
+          rel='noreferrer'
+        >
           <AiFillInstagram className='w-8 h-8 cursor-pointer' />
         </a>
       </div>

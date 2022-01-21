@@ -7,7 +7,6 @@ export default function Home() {
         <meta name='description' content="Vibhav's Portfolio Site" />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <p>Hey</p>
     </div>
   );
 }
