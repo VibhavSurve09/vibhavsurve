@@ -5,7 +5,7 @@ const Navbar = () => {
   const [activePage, setActivePage] = useState<string>('About');
   const router = useRouter();
   useEffect(() => {
-    const { pathname }: string = router;
+    const { pathname } = router;
     console.log(pathname);
   }, []);
   return (
