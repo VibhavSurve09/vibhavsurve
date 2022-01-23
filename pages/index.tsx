@@ -16,7 +16,10 @@ export default function Home({ servicesData }) {
         <div className='grid gap-6 lg:grid-cols-2'>
           {servicesData.map((data) => {
             return (
-              <div className='bg-gray-200 rounded-lg lg:col-span-1'>
+              <div
+                key={data.id}
+                className='bg-gray-200 rounded-lg lg:col-span-1'
+              >
                 <ServiceCard key={data.id} service={data} />
               </div>
             );
