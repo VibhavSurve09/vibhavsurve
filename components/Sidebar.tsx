@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import { AiFillGithub, AiFillLinkedin, AiFillInstagram } from 'react-icons/ai';
+import { AiFillGithub } from 'react-icons/ai';
+import { AiFillLinkedin } from 'react-icons/ai';
+import { AiFillInstagram } from 'react-icons/ai';
 import { GoLocation } from 'react-icons/go';
 import { GiTie } from 'react-icons/gi';
 import myImage from '../public/images/me.jpeg';
