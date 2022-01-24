@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { GetStaticPathsContext } from 'next';
 import dbConnect from '../db/dbConnect';
 import Bar from '../components/Bar';
@@ -14,7 +13,7 @@ const Resume = ({ skills, softwares }) => {
               Bachelor of Science in Information Technology
             </h5>
             <p className='font-semibold'>
-              St Xavier's College Mumbai (2019-2022)
+              St Xaviers College Mumbai (2019-2022)
             </p>
             <p className='my-3'>
               I am currently pursuing my Bachelors degree in Information
