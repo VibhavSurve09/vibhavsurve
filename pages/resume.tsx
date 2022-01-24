@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { GetStaticPathsContext } from 'next';
 import dbConnect from '../db/dbConnect';
 import Bar from '../components/Bar';
