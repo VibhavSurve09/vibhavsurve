@@ -9,7 +9,7 @@ export default function Home({ servicesData }) {
         Year) in Information Technology.
       </h5>
       <div
-        className='flex-grow p-4 mt-5 bg-gray-400'
+        className='flex-grow p-4 mt-5 bg-gray-400 dark:bg-dark-100'
         style={{ marginLeft: '-1.5rem', marginRight: '-1.5rem' }}
       >
         <h5 className='my-3 text-xl font-bold tracking-wide'>What I Offer</h5>
@@ -18,7 +18,7 @@ export default function Home({ servicesData }) {
             return (
               <div
                 key={data.id}
-                className='bg-gray-200 rounded-lg lg:col-span-1'
+                className='bg-gray-200 rounded-lg dark:bg-dark-200 lg:col-span-1'
               >
                 <ServiceCard key={data.id} service={data} />
               </div>
@@ -45,6 +45,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     props: {
       servicesData,
     },
-    revalidate: 3600, // page will be build every hour in production
+    revalidate: 43200, // page will be build every 12 hours in production
   };
 }
