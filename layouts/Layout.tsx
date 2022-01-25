@@ -13,10 +13,10 @@ const Layout = ({ children }) => {
           <link rel='icon' href='/favicon.ico' />
         </Head>
 
-        <div className='col-span-12 p-4 text-base text-center bg-white dark:bg-dark-500 lg:col-span-3 rounded-2xl'>
+        <div className='col-span-12 p-4 text-base text-center bg-white dark:bg-dark-500 lg:col-span-3 rounded-2xl shadow-custom-light dark:shadow-custom-dark'>
           <Sidebar />
         </div>
-        <div className='flex flex-col col-span-12 overflow-hidden bg-white lg:col-span-9 rounded-2xl dark:bg-dark-500'>
+        <div className='flex flex-col col-span-12 overflow-hidden bg-white lg:col-span-9 rounded-2xl dark:bg-dark-500 shadow-custom-light dark:shadow-custom-dark'>
           <Navbar />
           {children}
         </div>

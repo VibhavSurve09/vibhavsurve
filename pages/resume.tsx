@@ -64,18 +64,32 @@ export async function getStaticProps(context: GetStaticPathsContext) {
   const session = driver.session();
   const skills = [];
   const softwares = [];
-  const query = `MATCH (sk:SKILL) RETURN (sk)`;
-  const query2 = `MATCH (software:SOFTWARE) RETURN (software)`;
+  const queryForSkills = `MATCH (s:SKILLS)-[k:KNOWS]->(sk:SKILL) RETURN sk,k `;
+  const queryForSoftwares = `MATCH (softwares:SOFTWARES)-[k:KNOWS]->(software:SOFTWARE) RETURN software,k`;
   try {
-    const readResult = await session.readTransaction((tx) => tx.run(query));
+    const readResult = await session.readTransaction((tx) =>
+      tx.run(queryForSkills)
+    );
     readResult.records.forEach((record) => {
       const skill = record.get('sk');
-      skills.push({ ...skill.properties, id: skill.identity.low });
+      const skillLevel = record.get('k');
+      skills.push({
+        ...skill.properties,
+        id: skill.identity.low,
+        level: skillLevel.properties.level,
+      });
     });
-    const readResult2 = await session.readTransaction((tx) => tx.run(query2));
+    const readResult2 = await session.readTransaction((tx) =>
+      tx.run(queryForSoftwares)
+    );
     readResult2.records.forEach((record) => {
       const software = record.get('software');
-      softwares.push({ ...software.properties, id: software.identity.low });
+      const softwareLevel = record.get('k');
+      softwares.push({
+        ...software.properties,
+        id: software.identity.low,
+        level: softwareLevel.properties.level,
+      });
     });
   } catch {}
   await session.close();
