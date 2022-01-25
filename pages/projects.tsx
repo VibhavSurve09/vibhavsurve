@@ -19,7 +19,6 @@ const Projects = ({ allProjects }) => {
     const newArray = allProjects.filter((project) => {
       return project.category.includes(category.charAt(0).toUpperCase());
     });
-    console.log(newArray);
     setProjects(newArray);
     setActive(category);
   };
@@ -67,6 +66,7 @@ export async function getStaticProps(context: GetStaticPathsContext) {
   return {
     props: {
       allProjects,
-    }, // will be passed to the page component as props
+    },
+    revalidate: 21600,
   };
 }
