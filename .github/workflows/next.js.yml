@@ -17,6 +17,10 @@ jobs:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    env:
+      URI: ${{ secrets.URI }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
 
     steps:
       - uses: actions/checkout@v2
@@ -26,9 +30,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
-      env:
-        URI: ${{ secrets.URI }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        DB_USER: ${{ secrets.DB_USER }}
-
       - run: npm run build
