@@ -26,9 +26,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
-      - run: echo "
-          URI=neo4j+s://92a82aa6.databases.neo4j.io
-          PASSWORD=knNGOd4RIcwPJx2wNpYhWJizij_zi6q2tWBZpQh4aX4
-          DB_USER=neo4j
-          " > .env
+      env:
+        URI: ${{ secrets.URI }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+
       - run: npm run build
