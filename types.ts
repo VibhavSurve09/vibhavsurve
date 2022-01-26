@@ -13,6 +13,7 @@ export interface ISkills{
 
 export interface IProjects{
   name:string,
+  id:number
   description:string,
   image_path:string,
   deployed_url:string,

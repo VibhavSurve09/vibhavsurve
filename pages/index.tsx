@@ -1,9 +1,21 @@
+import { motion } from 'framer-motion';
 import { GetStaticPropsContext } from 'next';
+import {
+  fadeInAnimation,
+  routeAnimation,
+  staggerAnimation,
+} from '../animations';
 import ServiceCard from '../components/ServiceCard';
 import dbConnect from '../db/dbConnect';
 export default function Home({ servicesData }) {
   return (
-    <div className='flex flex-col flex-grow px-6 pt-1'>
+    <motion.div
+      variants={routeAnimation}
+      initial='initial'
+      animate='animate'
+      exit='exit'
+      className='flex flex-col flex-grow px-6 pt-1'
+    >
       <h5 className='my-3 font-medium'>
         Hola, I am Vibhav Surve, currently I am pursuing my B.Sc Degree (Final
         Year) in Information Technology.
@@ -13,20 +25,26 @@ export default function Home({ servicesData }) {
         style={{ marginLeft: '-1.5rem', marginRight: '-1.5rem' }}
       >
         <h5 className='my-3 text-xl font-bold tracking-wide'>What I Offer</h5>
-        <div className='grid gap-6 lg:grid-cols-2'>
+        <motion.div
+          variants={staggerAnimation}
+          initial='initial'
+          animate='animate'
+          className='grid gap-6 lg:grid-cols-2'
+        >
           {servicesData.map((data) => {
             return (
-              <div
+              <motion.div
+                variants={fadeInAnimation}
                 key={data.id}
                 className='bg-gray-200 rounded-lg dark:bg-dark-200 lg:col-span-1'
               >
                 <ServiceCard key={data.id} service={data} />
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -5,13 +5,12 @@ name: Next.js CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     strategy:
@@ -20,11 +19,17 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i
-    - run: npm run build
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm i
+      - run: echo "
+          URI=neo4j+s://92a82aa6.databases.neo4j.io
+          PASSWORD=knNGOd4RIcwPJx2wNpYhWJizij_zi6q2tWBZpQh4aX4
+          DB_USER=neo4j
+          " > .env
+      - run: npm run build
+      - run: npm start

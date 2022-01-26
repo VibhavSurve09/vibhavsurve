@@ -1,12 +1,24 @@
 import { GetStaticPathsContext } from 'next';
 import dbConnect from '../db/dbConnect';
 import Bar from '../components/Bar';
+import { fadeInAnimation, routeAnimation } from '../animations';
+import { motion } from 'framer-motion';
 const Resume = ({ skills, softwares }) => {
   return (
-    <div className='px-6 py-2'>
+    <motion.div
+      variants={routeAnimation}
+      initial='initial'
+      animate='animate'
+      exit='exit'
+      className='px-6 py-2'
+    >
       {/* Education and Exp */}
       <div className='grid gap-6 md:grid-cols-2'>
-        <div>
+        <motion.div
+          variants={fadeInAnimation}
+          initial='initial'
+          animate='animate'
+        >
           <h5 className='my-3 text-2xl font-bold'>Education</h5>
           <div>
             <h5 className='my-2 text-xl font-bold'>
@@ -20,10 +32,14 @@ const Resume = ({ skills, softwares }) => {
               Technology, having a C.G.P.A of 9.1 from St Xaviers College.
             </p>
           </div>
-        </div>
+        </motion.div>
         <div>
           <h5 className='my-3 text-2xl font-bold'>Experience</h5>
-          <div>
+          <motion.div
+            variants={fadeInAnimation}
+            initial='initial'
+            animate='animate'
+          >
             <h5 className='my-2 text-xl font-bold'>Internship</h5>
             <p className='font-semibold'>
               Technical Content Creator (May 2021-October 2021)
@@ -32,7 +48,7 @@ const Resume = ({ skills, softwares }) => {
               Create videos that were based on Machine Learning and Python at
               Professional Cipher YT channel.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
       {/* Languages and Tools */}
@@ -54,7 +70,7 @@ const Resume = ({ skills, softwares }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default Resume;

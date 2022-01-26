@@ -1,10 +1,12 @@
+import { AnimatePresence } from 'framer-motion';
 import Layout from '../layouts/Layout';
 import '../styles/globals.css';
-import { ThemeProvider } from 'next-themes';
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   return (
     <Layout>
-      <Component {...pageProps} />
+      <AnimatePresence exitBeforeEnter>
+        <Component {...pageProps} key={router.route} />
+      </AnimatePresence>
     </Layout>
   );
 }

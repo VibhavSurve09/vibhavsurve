@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import { IService } from '../types';
 import DynamicFaIcons from './DynamicFaIcons';
-
 const ServiceCard: FunctionComponent<{ service: IService }> = ({
   service: { about, icon, name },
 }) => {

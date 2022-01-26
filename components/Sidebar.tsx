@@ -33,6 +33,7 @@ const Sidebar = () => {
         src={myImage}
         className='w-32 h-32 mx-auto rounded-full'
         alt="Vibhav's Display Picture"
+        layout='intrinsic'
       />
       <h3 className='my-4 text-3xl font-medium tracking-wider font-kaushan'>
         <span className='text-green'>Vibhav </span>
@@ -44,7 +45,8 @@ const Sidebar = () => {
       ></p>
       <a
         className='flex items-center justify-center px-3 py-1 my-3 bg-gray-200 rounded-full dark:bg-dark-200 dark:bg-black-500'
-        download='name'
+        href='/Vibhav_Surve_Resume.pdf'
+        download='Vibhav_Surve_Resume.pdf'
       >
         <GiTie className='w-6 h-6' />
         Download Resume
@@ -99,9 +101,7 @@ const Sidebar = () => {
           Change Theme
         </button>
         {theme === 'light' ? (
-          <i className='flex flex-col text-sm'>
-            Everything looks better in dark-mode 😎
-          </i>
+          <i className='flex flex-col text-sm'>Try dark-mode 😎</i>
         ) : null}
       </div>
     </div>
