@@ -61,7 +61,9 @@ const ProjectCard: FunctionComponent<{
             >
               <a
                 href={github_url}
+                target='_blank'
                 className='flex items-center px-4 py-2 space-x-3 text-lg bg-gray-200 dark:bg-dark-200'
+                rel='noreferrer'
               >
                 <AiFillGithub /> <span>Github</span>
               </a>
