@@ -50,8 +50,9 @@ const Resume = ({ skills, softwares }) => {
                 target='_blank'
                 href='https://www.youtube.com/c/ProfessionalCipher'
                 rel='noreferrer'
+                className='hover:text-blue-300'
               >
-                Professional Cipher
+                {''} Professional Cipher
               </a>{' '}
               YT channel.
             </p>
