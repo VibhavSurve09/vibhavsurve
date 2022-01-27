@@ -46,7 +46,14 @@ const Resume = ({ skills, softwares }) => {
             </p>
             <p className='my-3'>
               Create videos that were based on Machine Learning and Python at
-              Professional Cipher YT channel.
+              <a
+                target='_blank'
+                href='https://www.youtube.com/c/ProfessionalCipher'
+                rel='noreferrer'
+              >
+                Professional Cipher
+              </a>{' '}
+              YT channel.
             </p>
           </motion.div>
         </div>

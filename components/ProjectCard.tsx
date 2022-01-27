@@ -28,7 +28,7 @@ const ProjectCard: FunctionComponent<{
   return (
     <div>
       <Image
-        src={`/images/${image_path}`}
+        src={image_path}
         alt={name}
         className='cursor-pointer'
         onClick={() => setShowDetail(id)}
@@ -48,7 +48,7 @@ const ProjectCard: FunctionComponent<{
           <motion.div variants={fadeInAnimation}>
             <motion.div className='border-4 border-gray-100'>
               <Image
-                src={`/images/${image_path}`}
+                src={image_path}
                 alt={name}
                 layout='responsive'
                 height='150'
@@ -67,8 +67,10 @@ const ProjectCard: FunctionComponent<{
               </a>
               {deployed_url != '' ? (
                 <a
+                  target='_blank'
                   href={deployed_url}
                   className='flex items-center px-4 py-2 space-x-3 text-lg bg-gray-200 dark:bg-dark-200'
+                  rel='noreferrer'
                 >
                   <AiFillProject /> <span>Project</span>
                 </a>

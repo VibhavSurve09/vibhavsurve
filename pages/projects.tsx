@@ -22,7 +22,7 @@ const Projects = ({ allProjects }) => {
     }
 
     const newArray = allProjects.filter((project) => {
-      return project.category.includes(category.charAt(0).toUpperCase());
+      return project.category.toLowerCase() === category;
     });
     setProjects(newArray);
     setActive(category);

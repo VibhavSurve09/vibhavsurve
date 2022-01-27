@@ -16,10 +16,11 @@ const Sidebar = () => {
   useEffect(() => {
     init(textRef.current, {
       showCursor: false,
+      backDelay: 1000,
       strings: [
         'Web Developer',
         'Python Developer',
-        'Machine Learning Eng.',
+        'Analyst',
         'Content Creator',
       ],
     });
@@ -48,7 +49,7 @@ const Sidebar = () => {
         href='/Vibhav_Surve_Resume.pdf'
         download='Vibhav_Surve_Resume.pdf'
       >
-        <GiTie className='w-6 h-6' />
+        <GiTie className='w-6 h-6 hover:animate-bounce' />
         Download Resume
       </a>
       {/* Social Media Icons */}
@@ -84,7 +85,7 @@ const Sidebar = () => {
           <span>Panvel,India</span>
         </div>
 
-        <p className='my-2'>survevibhav@gmail.com</p>
+        <p className='my-2'>survevibhav09@gmail.com</p>
         <p className='my-2'>8692961508</p>
         <button
           className='w-8/12 px-5 py-2 my-3 text-white rounded-full bg-gradient-to-r from-green to-blue-400 focus:outline-none'
