@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                  const services = record.get('servicesProvided');
                 servicesData.push({ ...services.properties, id: services.identity.low });
                  });
-                 res.status(200).json(servicesData)
+                 res.status(200).json({success:true,data:servicesData})
             }
             catch{
                 res.status(404).json({success:false})

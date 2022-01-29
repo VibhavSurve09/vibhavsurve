@@ -26,7 +26,7 @@ export default async function handler(req, res) {
               techTags: tags.properties.tags.split(','),
             });
           });
-          res.status(200).json(allProjects)
+          res.status(200).json({ success:true,data:allProjects})
         } catch {
             res.status(404).json({success:false})
         }

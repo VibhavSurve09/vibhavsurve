@@ -72,10 +72,10 @@ export default Projects;
 export async function getStaticProps(context: GetStaticPathsContext) {
   const HOST = process.env.HOST;
   const res = await fetch(`${HOST}/api/projects`);
-  const allProjects = await res.json();
+  const { data } = await res.json();
   return {
     props: {
-      allProjects,
+      allProjects: data,
     },
     revalidate: 3600,
   };

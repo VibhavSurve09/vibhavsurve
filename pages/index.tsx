@@ -50,10 +50,10 @@ export default function Home({ servicesData }) {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const HOST = process.env.HOST;
   const res = await fetch(`${HOST}/api/about`);
-  const servicesData = await res.json();
+  const { data } = await res.json();
   return {
     props: {
-      servicesData,
+      servicesData: data,
     },
     revalidate: 7200,
   };
