@@ -48,7 +48,8 @@ export default function Home({ servicesData }) {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const res = await fetch(`http://localhost:3000/api/about`);
+  const HOST = process.env.HOST;
+  const res = await fetch(`${HOST}/api/about`);
   const servicesData = await res.json();
   return {
     props: {

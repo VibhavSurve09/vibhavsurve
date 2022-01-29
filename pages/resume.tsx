@@ -84,7 +84,8 @@ const Resume = ({ skills, softwares }) => {
 export default Resume;
 
 export async function getStaticProps(context: GetStaticPathsContext) {
-  const res = await fetch('http://localhost:3000/api/resume');
+  const HOST = process.env.HOST;
+  const res = await fetch(`${HOST}/api/resume`);
   const data = await res.json();
   return {
     props: {

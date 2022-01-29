@@ -70,7 +70,8 @@ const Projects = ({ allProjects }) => {
 export default Projects;
 
 export async function getStaticProps(context: GetStaticPathsContext) {
-  const res = await fetch(`http://localhost:3000/api/projects`);
+  const HOST = process.env.HOST;
+  const res = await fetch(`${HOST}/api/projects`);
   const allProjects = await res.json();
   return {
     props: {
