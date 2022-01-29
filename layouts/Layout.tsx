@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { ThemeProvider } from 'next-themes';
-import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 const Layout = ({ children }) => {
   const router = useRouter();
