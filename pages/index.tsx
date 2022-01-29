@@ -52,14 +52,16 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const res = await fetch(`${HOST}/api/about`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
-      'User-Agent':
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
-      Accept: 'application/json; charset=UTF-8',
-      // 'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
+      'User-Agent': '*',
     },
   });
   const { data } = await res.json();
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       servicesData: data,
