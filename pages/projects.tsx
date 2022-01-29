@@ -70,33 +70,12 @@ const Projects = ({ allProjects }) => {
 export default Projects;
 
 export async function getStaticProps(context: GetStaticPathsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const allProjects = [];
-  const queryForProjects =
-    'MATCH (projects:PROJECT)-[using:USING]->(skill:SKILL) RETURN projects,skill,using';
-  try {
-    const readResult = await session.readTransaction((tx) =>
-      tx.run(queryForProjects)
-    );
-
-    readResult.records.forEach((record) => {
-      const project = record.get('projects');
-      const skill = record.get('skill');
-      const tags = record.get('using');
-      allProjects.push({
-        ...project.properties,
-        id: project.identity.low,
-        category: skill.properties.name,
-        techTags: tags.properties.tags.split(','),
-      });
-    });
-  } catch {}
-  await session.close();
+  const res = await fetch(`http://localhost:3000/api/projects`);
+  const allProjects = await res.json();
   return {
     props: {
       allProjects,
     },
-    revalidate: 21600,
+    revalidate: 3600,
   };
 }

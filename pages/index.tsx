@@ -6,7 +6,6 @@ import {
   staggerAnimation,
 } from '../animations';
 import ServiceCard from '../components/ServiceCard';
-import dbConnect from '../db/dbConnect';
 export default function Home({ servicesData }) {
   return (
     <motion.div
@@ -49,20 +48,12 @@ export default function Home({ servicesData }) {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const servicesData = [];
-  const query = `MATCH (servicesProvided:SERVICE_PROVIDED) RETURN servicesProvided`;
-  const rs = await session.readTransaction((tx) => tx.run(query));
-  rs.records.forEach((record) => {
-    const services = record.get('servicesProvided');
-    servicesData.push({ ...services.properties, id: services.identity.low });
-  });
-  await session.close();
+  const res = await fetch(`http://localhost:3000/api/about`);
+  const servicesData = await res.json();
   return {
     props: {
       servicesData,
     },
-    revalidate: 43200, // page will be build every 12 hours in production
+    revalidate: 7200,
   };
 }

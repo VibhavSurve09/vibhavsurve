@@ -84,44 +84,13 @@ const Resume = ({ skills, softwares }) => {
 export default Resume;
 
 export async function getStaticProps(context: GetStaticPathsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const skills = [];
-  const softwares = [];
-  const queryForSkills = `MATCH (s:SKILLS)-[k:KNOWS]->(sk:SKILL) RETURN sk,k `;
-  const queryForSoftwares = `MATCH (softwares:SOFTWARES)-[k:KNOWS]->(software:SOFTWARE) RETURN software,k`;
-  try {
-    const readResult = await session.readTransaction((tx) =>
-      tx.run(queryForSkills)
-    );
-    readResult.records.forEach((record) => {
-      const skill = record.get('sk');
-      const skillLevel = record.get('k');
-      skills.push({
-        ...skill.properties,
-        id: skill.identity.low,
-        level: skillLevel.properties.level,
-      });
-    });
-    const readResult2 = await session.readTransaction((tx) =>
-      tx.run(queryForSoftwares)
-    );
-    readResult2.records.forEach((record) => {
-      const software = record.get('software');
-      const softwareLevel = record.get('k');
-      softwares.push({
-        ...software.properties,
-        id: software.identity.low,
-        level: softwareLevel.properties.level,
-      });
-    });
-  } catch {}
-  await session.close();
+  const res = await fetch('http://localhost:3000/api/resume');
+  const data = await res.json();
   return {
     props: {
-      skills,
-      softwares,
+      skills: data.skills,
+      softwares: data.softwares,
     },
-    revalidate: 43200, // page will be build every 12 hours in production
+    revalidate: 3600,
   };
 }
