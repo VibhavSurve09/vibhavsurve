@@ -1,7 +1,8 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticPathsContext } from 'next';
 import Bar from '../components/Bar';
 import { fadeInAnimation, routeAnimation } from '../animations';
 import { motion } from 'framer-motion';
+import dbConnect from '../db/dbConnect';
 const Resume = ({ skills, softwares }) => {
   return (
     <motion.div
@@ -81,26 +82,46 @@ const Resume = ({ skills, softwares }) => {
   );
 };
 export default Resume;
-
-export async function getServerSideProps(context: GetServerSideProps) {
-  const HOST = process.env.HOST;
-  const res = await fetch(`${HOST}/api/resume`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'User-Agent': '*',
-    },
-  });
-  const data = await res.json();
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
+export async function getStaticProps(context: GetStaticPathsContext) {
+  const driver = await dbConnect();
+  const session = driver.session();
+  const skills = [];
+  const softwares = [];
+  const queryForSkills = `MATCH (s:SKILLS)-[k:KNOWS]->(sk:SKILL) RETURN sk,k `;
+  const queryForSoftwares = `MATCH (softwares:SOFTWARES)-[k:KNOWS]->(software:SOFTWARE) RETURN software,k`;
+  try {
+    const readResult = await session.readTransaction((tx) =>
+      tx.run(queryForSkills)
+    );
+    readResult.records.forEach((record) => {
+      const skill = record.get('sk');
+      const skillLevel = record.get('k');
+      skills.push({
+        ...skill.properties,
+        id: skill.identity.low,
+        level: skillLevel.properties.level,
+      });
+    });
+    const readResult2 = await session.readTransaction((tx) =>
+      tx.run(queryForSoftwares)
+    );
+    readResult2.records.forEach((record) => {
+      const software = record.get('software');
+      const softwareLevel = record.get('k');
+      softwares.push({
+        ...software.properties,
+        id: software.identity.low,
+        level: softwareLevel.properties.level,
+      });
+    });
+  } catch {}
+  await session.close();
+  await driver.close();
   return {
     props: {
-      skills: data.skills,
-      softwares: data.softwares,
+      skills,
+      softwares,
     },
+    revalidate: 3600,
   };
 }

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GetServerSideProps } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { useState } from 'react';
 import {
   fadeInAnimation,
@@ -69,24 +69,35 @@ const Projects = ({ allProjects }) => {
 };
 export default Projects;
 
-export async function getServerSideProps(context: GetServerSideProps) {
-  const HOST = process.env.HOST;
-  const res = await fetch(`${HOST}/api/projects`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'User-Agent': '*',
-    },
-  });
-  const { data } = await res.json();
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const driver = await dbConnect();
+  const session = driver.session();
+  const allProjects = [];
+  const queryForProjects =
+    'MATCH (projects:PROJECT)-[using:USING]->(skill:SKILL) RETURN projects,skill,using';
+  try {
+    const readResult = await session.readTransaction((tx) =>
+      tx.run(queryForProjects)
+    );
+
+    readResult.records.forEach((record) => {
+      const project = record.get('projects');
+      const skill = record.get('skill');
+      const tags = record.get('using');
+      allProjects.push({
+        ...project.properties,
+        id: project.identity.low,
+        category: skill.properties.name,
+        techTags: tags.properties.tags.split(','),
+      });
+    });
+  } catch {}
+  await session.close();
+  await driver.close();
   return {
     props: {
-      allProjects: data,
+      allProjects,
     },
+    revalidate: 3600,
   };
 }
