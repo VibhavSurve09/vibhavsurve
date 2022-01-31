@@ -1,5 +1,4 @@
-import { GetStaticPathsContext } from 'next';
-import dbConnect from '../db/dbConnect';
+import { GetServerSideProps } from 'next';
 import Bar from '../components/Bar';
 import { fadeInAnimation, routeAnimation } from '../animations';
 import { motion } from 'framer-motion';
@@ -83,7 +82,7 @@ const Resume = ({ skills, softwares }) => {
 };
 export default Resume;
 
-export async function getStaticProps(context: GetStaticPathsContext) {
+export async function getServerSideProps(context: GetServerSideProps) {
   const HOST = process.env.HOST;
   const res = await fetch(`${HOST}/api/resume`, {
     method: 'GET',
@@ -103,6 +102,5 @@ export async function getStaticProps(context: GetStaticPathsContext) {
       skills: data.skills,
       softwares: data.softwares,
     },
-    revalidate: 3600,
   };
 }

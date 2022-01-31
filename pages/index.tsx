@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GetStaticPropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import {
   fadeInAnimation,
   routeAnimation,
@@ -47,7 +47,7 @@ export default function Home({ servicesData }) {
   );
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSideProps) {
   const HOST = process.env.HOST;
   const res = await fetch(`${HOST}/api/about`, {
     method: 'GET',
@@ -66,6 +66,5 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     props: {
       servicesData: data,
     },
-    revalidate: 7200,
   };
 }

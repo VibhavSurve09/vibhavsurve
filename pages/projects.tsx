@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GetStaticPathsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import {
   fadeInAnimation,
@@ -69,7 +69,7 @@ const Projects = ({ allProjects }) => {
 };
 export default Projects;
 
-export async function getStaticProps(context: GetStaticPathsContext) {
+export async function getServerSideProps(context: GetServerSideProps) {
   const HOST = process.env.HOST;
   const res = await fetch(`${HOST}/api/projects`, {
     method: 'GET',
@@ -88,6 +88,5 @@ export async function getStaticProps(context: GetStaticPathsContext) {
     props: {
       allProjects: data,
     },
-    revalidate: 3600,
   };
 }
