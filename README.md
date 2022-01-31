@@ -74,7 +74,7 @@ Special Thanks to [Backbench Coder](https://youtu.be/atebfXxl9B4) for such amazi
 
 ## Optimizations
 
-- Have used Static-site Generation wherever possible thus making sure to get good Lighthouse score.
+- Have used Server-side Rendering wherever possible thus making sure to get good Lighthouse score.
 
 - Uses HTTP/2 under the hood to reduce the number of TCP connections.
 
