@@ -60,6 +60,7 @@ export async function getStaticProps(context: GetStaticPathsContext) {
   });
   await session.close();
   await driver.close();
+  console.log("Service ",servicesData);
   return {
     props: {
       servicesData,
