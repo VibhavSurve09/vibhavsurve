@@ -33,6 +33,7 @@ async fn main() -> io::Result<()> {
             .service(controller::get_all_service)
             .service(controller::get_all_skills)
             .service(controller::get_all_softwares)
+            .service(controller::get_all_projects)
     })
     .bind(("127.0.0.1", 8000))?
     .run()

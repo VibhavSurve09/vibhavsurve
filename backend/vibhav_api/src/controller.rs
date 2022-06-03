@@ -31,8 +31,8 @@ async fn get_all_skills(data: web::Data<Mutex<Client>>) -> impl Responder {
         .collection(SKILL_COLLECTION);
     let mut skills: Vec<bson::Document> = Vec::new();
     let mut cursor = service_collection.find(None, None).await.unwrap();
-    while let Some(service) = cursor.try_next().await.unwrap() {
-        skills.push(service);
+    while let Some(skill) = cursor.try_next().await.unwrap() {
+        skills.push(skill);
     }
     HttpResponse::Ok().json(skills)
 }
@@ -46,12 +46,25 @@ async fn get_all_softwares(data: web::Data<Mutex<Client>>) -> impl Responder {
         .collection(SOFTWARES_COLLECTION);
     let mut softwares: Vec<bson::Document> = Vec::new();
     let mut cursor = service_collection.find(None, None).await.unwrap();
-    while let Some(service) = cursor.try_next().await.unwrap() {
-        softwares.push(service);
+    while let Some(software) = cursor.try_next().await.unwrap() {
+        softwares.push(software);
     }
     HttpResponse::Ok().json(softwares)
 }
 
-// async fn create_service() -> impl Responder {
-//     todo!("Create A service")
-// }
+#[get("/projects")]
+async fn get_all_projects(data: web::Data<Mutex<Client>>) -> impl Responder {
+    let service_collection: Collection<bson::Document> = data
+        .lock()
+        .unwrap()
+        .database(MONGO_DB)
+        .collection(PROJECT_COLLECTION);
+    let mut projects: Vec<bson::Document> = Vec::new();
+    let mut cursor = service_collection.find(None, None).await.unwrap();
+    while let Some(project) = cursor.try_next().await.unwrap() {
+        projects.push(project);
+    }
+    HttpResponse::Ok().json(projects)
+}
+
+// Post methods are not implemented
