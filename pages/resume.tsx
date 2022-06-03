@@ -1,9 +1,21 @@
-import { GetStaticPathsContext } from 'next';
 import Bar from '../components/Bar';
 import { fadeInAnimation, routeAnimation } from '../animations';
 import { motion } from 'framer-motion';
-import dbConnect from '../db/dbConnect';
-const Resume = ({ skills, softwares }) => {
+import { useEffect, useState } from 'react';
+const Resume = () => {
+  const SKILLS_URL = 'http://localhost:8000/skills';
+  const SOFTWARE_URL = 'http://localhost:8000/softwares';
+  const [skills, setSkills] = useState([]);
+  const [softwares, setSoftwares] = useState([]);
+
+  useEffect(() => {
+    fetch(SKILLS_URL)
+      .then((res) => res.json())
+      .then((data) => setSkills(data));
+    fetch(SOFTWARE_URL)
+      .then((res) => res.json())
+      .then((data) => setSoftwares(data));
+  }, []);
   return (
     <motion.div
       variants={routeAnimation}
@@ -65,7 +77,7 @@ const Resume = ({ skills, softwares }) => {
           <h5 className='my-3 text-2xl font-bold'>Languages & Frameworks</h5>
           <div className='my-2'>
             {skills.map((lang) => {
-              return <Bar key={lang.id} skill={lang} />;
+              return <Bar key={lang._id.$oid} skill={lang} />;
             })}
           </div>
         </div>
@@ -73,7 +85,7 @@ const Resume = ({ skills, softwares }) => {
           <h5 className='my-3 text-2xl font-bold'>Softwares & Tools</h5>
           <div className='my-2'>
             {softwares.map((software) => {
-              return <Bar key={software.id} skill={software} />;
+              return <Bar key={software._id.$oid} skill={software} />;
             })}
           </div>
         </div>
@@ -82,46 +94,3 @@ const Resume = ({ skills, softwares }) => {
   );
 };
 export default Resume;
-export async function getStaticProps(context: GetStaticPathsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const skills = [];
-  const softwares = [];
-  const queryForSkills = `MATCH (s:SKILLS)-[k:KNOWS]->(sk:SKILL) RETURN sk,k `;
-  const queryForSoftwares = `MATCH (softwares:SOFTWARES)-[k:KNOWS]->(software:SOFTWARE) RETURN software,k`;
-  try {
-    const readResult = await session.readTransaction((tx) =>
-      tx.run(queryForSkills)
-    );
-    readResult.records.forEach((record) => {
-      const skill = record.get('sk');
-      const skillLevel = record.get('k');
-      skills.push({
-        ...skill.properties,
-        id: skill.identity.low,
-        level: skillLevel.properties.level,
-      });
-    });
-    const readResult2 = await session.readTransaction((tx) =>
-      tx.run(queryForSoftwares)
-    );
-    readResult2.records.forEach((record) => {
-      const software = record.get('software');
-      const softwareLevel = record.get('k');
-      softwares.push({
-        ...software.properties,
-        id: software.identity.low,
-        level: softwareLevel.properties.level,
-      });
-    });
-  } catch {}
-  await session.close();
-  await driver.close();
-  return {
-    props: {
-      skills,
-      softwares,
-    },
-    revalidate: 3600,
-  };
-}

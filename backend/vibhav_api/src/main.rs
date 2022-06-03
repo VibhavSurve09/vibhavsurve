@@ -31,6 +31,8 @@ async fn main() -> io::Result<()> {
             .app_data(client.clone())
             .service(ping)
             .service(controller::get_all_service)
+            .service(controller::get_all_skills)
+            .service(controller::get_all_softwares)
     })
     .bind(("127.0.0.1", 8000))?
     .run()
