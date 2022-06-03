@@ -7,7 +7,16 @@ import {
 } from '../animations';
 import ServiceCard from '../components/ServiceCard';
 import dbConnect from '../db/dbConnect';
-export default function Home({ servicesData }) {
+import { useEffect, useState } from 'react';
+export default function Home() {
+  const SERVICE_URL = 'http://localhost:8000/whatido';
+  console.log(SERVICE_URL);
+  const [servicesData, setservicesData] = useState([]);
+  useEffect(() => {
+    fetch(SERVICE_URL)
+      .then((res) => res.json())
+      .then((data) => setservicesData(data));
+  }, []);
   return (
     <motion.div
       variants={routeAnimation}
@@ -35,10 +44,10 @@ export default function Home({ servicesData }) {
             return (
               <motion.div
                 variants={fadeInAnimation}
-                key={data.id}
+                key={data._id.$oid}
                 className='bg-gray-200 rounded-lg dark:bg-dark-200 lg:col-span-1'
               >
-                <ServiceCard key={data.id} service={data} />
+                <ServiceCard key={data._id.$oid} service={data} />
               </motion.div>
             );
           })}
@@ -48,23 +57,23 @@ export default function Home({ servicesData }) {
   );
 }
 
-export async function getStaticProps(context: GetStaticPathsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const servicesData = [];
-  const query = `MATCH (servicesProvided:SERVICE_PROVIDED) RETURN servicesProvided`;
-  const rs = await session.readTransaction((tx) => tx.run(query));
-  rs.records.forEach((record) => {
-    const services = record.get('servicesProvided');
-    servicesData.push({ ...services.properties, id: services.identity.low });
-  });
-  await session.close();
-  await driver.close();
-  console.log("Service ",servicesData);
-  return {
-    props: {
-      servicesData,
-    },
-    revalidate: 3600, // page will be build every 12 hours in production
-  };
-}
+// export async function getStaticProps(context: GetStaticPathsContext) {
+//   const driver = await dbConnect();
+//   const session = driver.session();
+//   const servicesData = [];
+//   const query = `MATCH (servicesProvided:SERVICE_PROVIDED) RETURN servicesProvided`;
+//   const rs = await session.readTransaction((tx) => tx.run(query));
+//   rs.records.forEach((record) => {
+//     const services = record.get('servicesProvided');
+//     servicesData.push({ ...services.properties, id: services.identity.low });
+//   });
+//   await session.close();
+//   await driver.close();
+//   console.log('Service ', servicesData);
+//   return {
+//     props: {
+//       servicesData,
+//     },
+//     revalidate: 3600, // page will be build every 12 hours in production
+//   };
+// }
