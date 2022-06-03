@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
-import { GetStaticPathsContext } from 'next';
 import {
   fadeInAnimation,
   routeAnimation,
   staggerAnimation,
 } from '../animations';
 import ServiceCard from '../components/ServiceCard';
-import dbConnect from '../db/dbConnect';
 import { useEffect, useState } from 'react';
 export default function Home() {
   const SERVICE_URL = 'http://localhost:8000/whatido';
@@ -56,24 +54,3 @@ export default function Home() {
     </motion.div>
   );
 }
-
-// export async function getStaticProps(context: GetStaticPathsContext) {
-//   const driver = await dbConnect();
-//   const session = driver.session();
-//   const servicesData = [];
-//   const query = `MATCH (servicesProvided:SERVICE_PROVIDED) RETURN servicesProvided`;
-//   const rs = await session.readTransaction((tx) => tx.run(query));
-//   rs.records.forEach((record) => {
-//     const services = record.get('servicesProvided');
-//     servicesData.push({ ...services.properties, id: services.identity.low });
-//   });
-//   await session.close();
-//   await driver.close();
-//   console.log('Service ', servicesData);
-//   return {
-//     props: {
-//       servicesData,
-//     },
-//     revalidate: 3600, // page will be build every 12 hours in production
-//   };
-// }
