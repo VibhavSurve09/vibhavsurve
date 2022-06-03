@@ -8,7 +8,6 @@ import ServiceCard from '../components/ServiceCard';
 import { useEffect, useState } from 'react';
 export default function Home() {
   const SERVICE_URL = 'http://localhost:8000/whatido';
-  console.log(SERVICE_URL);
   const [servicesData, setservicesData] = useState([]);
   useEffect(() => {
     fetch(SERVICE_URL)
