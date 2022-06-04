@@ -38,3 +38,4 @@ yarn-error.log*
 #Cargo
 
 /backend/vibhav_api/target
+/backend/vibhav_api/.env
