@@ -6,14 +6,8 @@ import {
 } from '../animations';
 import ServiceCard from '../components/ServiceCard';
 import { useEffect, useState } from 'react';
-export default function Home() {
-  const SERVICE_URL = 'http://localhost:8000/whatido';
-  const [servicesData, setservicesData] = useState([]);
-  useEffect(() => {
-    fetch(SERVICE_URL)
-      .then((res) => res.json())
-      .then((data) => setservicesData(data));
-  }, []);
+import { GetStaticPropsContext } from 'next';
+export default function Home({ servicesData }) {
   return (
     <motion.div
       variants={routeAnimation}
@@ -52,4 +46,20 @@ export default function Home() {
       </div>
     </motion.div>
   );
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const SERVICE_URL = 'http://localhost:8000/whatido';
+  const servicesData = [];
+  const res = await fetch(SERVICE_URL);
+  const data = await res.json();
+  for (let i = 0; i < data.length; i++) {
+    servicesData.push(data[i]);
+  }
+  return {
+    props: {
+      servicesData,
+    },
+    revalidate: 43200,
+  };
 }

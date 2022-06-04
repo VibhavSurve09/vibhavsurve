@@ -2,20 +2,10 @@ import Bar from '../components/Bar';
 import { fadeInAnimation, routeAnimation } from '../animations';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-const Resume = () => {
-  const SKILLS_URL = 'http://localhost:8000/skills';
-  const SOFTWARE_URL = 'http://localhost:8000/softwares';
-  const [skills, setSkills] = useState([]);
-  const [softwares, setSoftwares] = useState([]);
-
-  useEffect(() => {
-    fetch(SKILLS_URL)
-      .then((res) => res.json())
-      .then((data) => setSkills(data));
-    fetch(SOFTWARE_URL)
-      .then((res) => res.json())
-      .then((data) => setSoftwares(data));
-  }, []);
+import { GetStaticPropsContext } from 'next';
+const Resume = ({ allSkills, allSoftwares }) => {
+  const [skills, setSkills] = useState(allSkills);
+  const [softwares, setSoftwares] = useState(allSoftwares);
   return (
     <motion.div
       variants={routeAnimation}
@@ -94,3 +84,28 @@ const Resume = () => {
   );
 };
 export default Resume;
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const SKILLS_URL = 'http://localhost:8000/skills';
+  const SOFTWARE_URL = 'http://localhost:8000/softwares';
+  const allSkills = [];
+  const allSoftwares = [];
+  const res = await fetch(SKILLS_URL);
+  const data = await res.json();
+  for (let i = 0; i < data.length; i++) {
+    allSkills.push(data[i]);
+  }
+  const res1 = await fetch(SOFTWARE_URL);
+  const data1 = await res1.json();
+  for (let i = 0; i < data1.length; i++) {
+    allSoftwares.push(data1[i]);
+  }
+
+  return {
+    props: {
+      allSkills,
+      allSoftwares,
+    },
+    revalidate: 43200,
+  };
+}

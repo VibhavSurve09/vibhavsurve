@@ -9,19 +9,9 @@ import {
 import ProjectCard from '../components/ProjectCard';
 import ProjectsNavbar from '../components/ProjectsNavbar';
 import { Category } from '../types';
-const Projects = () => {
-  const [allProjects, setAllProjects] = useState([]);
-  const PROJECT_URL = 'http://localhost:8000/projects';
-  useEffect(() => {
-    get_all_projects();
-  }, []);
-  const get_all_projects = () => {
-    fetch(PROJECT_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        setAllProjects(data);
-      });
-  };
+const Projects = ({ allProjectss }) => {
+  const [allProjects, setAllProjects] = useState(allProjectss);
+
   const [projects, setProjects] = useState(allProjects);
 
   const [active, setActive] = useState('all');
@@ -82,17 +72,18 @@ const Projects = () => {
 };
 export default Projects;
 
-// export async function getStaticProps(context: GetStaticPropsContext) {
-//   const PROJECT_URL = 'http://localhost:8000/projects';
-//   let allProjects = [];
-//   fetch(PROJECT_URL)
-//     .then((res) => res.json())
-//     .then((data) => (allProjects = data));
-//   console.log('Bata', allProjects);
-//   return {
-//     props: {
-//       allProjects,
-//     },
-//     revalidate: 3600,
-//   };
-// }
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const PROJECT_URL = 'http://localhost:8000/projects';
+  const allProjectss = [];
+  const res = await fetch(PROJECT_URL);
+  const data = await res.json();
+  for (let i = 0; i < data.length; i++) {
+    allProjectss.push(data[i]);
+  }
+  return {
+    props: {
+      allProjectss,
+    },
+    revalidate: 43200,
+  };
+}
