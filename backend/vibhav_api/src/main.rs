@@ -5,7 +5,6 @@ use mongodb::{bson::doc, options::ClientOptions, Client};
 use std::io;
 use std::sync::Mutex;
 mod controller;
-mod models;
 
 const FRONT_END_URL: &str = "https://vibhavsurve.tech";
 #[get("/")]
