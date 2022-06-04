@@ -1,12 +1,13 @@
 use actix_cors::Cors;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use dotenv;
 use mongodb::{bson::doc, options::ClientOptions, Client};
 use std::io;
 use std::sync::Mutex;
 mod controller;
 mod models;
 
-const FRONT_END_URL: &str = "http://localhost:3000";
+const FRONT_END_URL: &str = "https://vibhavsurve.tech";
 #[get("/")]
 async fn ping() -> impl Responder {
     HttpResponse::Ok().json("pong")
@@ -15,11 +16,9 @@ async fn ping() -> impl Responder {
 
 async fn main() -> io::Result<()> {
     //ClientOptions::parse returns a result type so we use unwrap
-    let client_options = ClientOptions::parse(
-        "mongodb+srv://vibhav:vibhav123@vs.p2gr6.mongodb.net/?retryWrites=true&w=majority",
-    )
-    .await
-    .unwrap();
+    let client_options = ClientOptions::parse(dotenv::var("MONGO_URI").unwrap())
+        .await
+        .unwrap();
     // Client::parse returns a result type so we use unwrap
     let client = web::Data::new(Mutex::new(Client::with_options(client_options).unwrap()));
 
@@ -38,15 +37,4 @@ async fn main() -> io::Result<()> {
     .bind(("127.0.0.1", 8000))?
     .run()
     .await
-    //use mongodb::{bson::doc, options::ClientOptions, Client};
-    // #[tokio::main]
-    //     async fn main() -> mongodb::error::Result<()> {
-    //         let client_options = ClientOptions::parse(
-    //             "mongodb+srv://vibhav:<password>@vs.p2gr6.mongodb.net/?retryWrites=true&w=majority",
-    //         )
-    //         .await?;
-    //         let client = Client::with_options(client_options)?;
-    //         let database = client.database("testDB");
-    //         Ok(())
-    //     }
 }
