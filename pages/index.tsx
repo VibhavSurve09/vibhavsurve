@@ -49,7 +49,7 @@ export default function Home({ servicesData }) {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const SERVICE_URL = 'http://localhost:8000/whatido';
+  const SERVICE_URL = 'https://vibhav-api.onrender.com/whatido';
   const servicesData = [];
   const res = await fetch(SERVICE_URL);
   const data = await res.json();

@@ -86,8 +86,8 @@ const Resume = ({ allSkills, allSoftwares }) => {
 export default Resume;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const SKILLS_URL = 'http://localhost:8000/skills';
-  const SOFTWARE_URL = 'http://localhost:8000/softwares';
+  const SKILLS_URL = 'https://vibhav-api.onrender.com/skills';
+  const SOFTWARE_URL = 'https://vibhav-api.onrender.com/softwares';
   const allSkills = [];
   const allSoftwares = [];
   const res = await fetch(SKILLS_URL);

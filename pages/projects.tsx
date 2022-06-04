@@ -73,7 +73,7 @@ const Projects = ({ allProjectss }) => {
 export default Projects;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const PROJECT_URL = 'http://localhost:8000/projects';
+  const PROJECT_URL = 'https://vibhav-api.onrender.com/projects';
   const allProjectss = [];
   const res = await fetch(PROJECT_URL);
   const data = await res.json();
