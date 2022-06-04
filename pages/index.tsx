@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { GetStaticPathsContext } from 'next';
 import {
   fadeInAnimation,
   routeAnimation,
   staggerAnimation,
 } from '../animations';
 import ServiceCard from '../components/ServiceCard';
-import dbConnect from '../db/dbConnect';
+import { useEffect, useState } from 'react';
+import { GetStaticPropsContext } from 'next';
 export default function Home({ servicesData }) {
   return (
     <motion.div
@@ -35,10 +35,10 @@ export default function Home({ servicesData }) {
             return (
               <motion.div
                 variants={fadeInAnimation}
-                key={data.id}
+                key={data._id.$oid}
                 className='bg-gray-200 rounded-lg dark:bg-dark-200 lg:col-span-1'
               >
-                <ServiceCard key={data.id} service={data} />
+                <ServiceCard key={data._id.$oid} service={data} />
               </motion.div>
             );
           })}
@@ -48,22 +48,18 @@ export default function Home({ servicesData }) {
   );
 }
 
-export async function getStaticProps(context: GetStaticPathsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const SERVICE_URL = 'http://localhost:8000/whatido';
   const servicesData = [];
-  const query = `MATCH (servicesProvided:SERVICE_PROVIDED) RETURN servicesProvided`;
-  const rs = await session.readTransaction((tx) => tx.run(query));
-  rs.records.forEach((record) => {
-    const services = record.get('servicesProvided');
-    servicesData.push({ ...services.properties, id: services.identity.low });
-  });
-  await session.close();
-  await driver.close();
+  const res = await fetch(SERVICE_URL);
+  const data = await res.json();
+  for (let i = 0; i < data.length; i++) {
+    servicesData.push(data[i]);
+  }
   return {
     props: {
       servicesData,
     },
-    revalidate: 3600, // page will be build every 12 hours in production
+    revalidate: 43200,
   };
 }

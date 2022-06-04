@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { GetStaticPropsContext } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   fadeInAnimation,
   routeAnimation,
@@ -8,10 +8,12 @@ import {
 } from '../animations';
 import ProjectCard from '../components/ProjectCard';
 import ProjectsNavbar from '../components/ProjectsNavbar';
-import dbConnect from '../db/dbConnect';
 import { Category } from '../types';
-const Projects = ({ allProjects }) => {
+const Projects = ({ allProjectss }) => {
+  const [allProjects, setAllProjects] = useState(allProjectss);
+
   const [projects, setProjects] = useState(allProjects);
+
   const [active, setActive] = useState('all');
   const [showDetail, setShowDetail] = useState<number | null>(null);
   const handlerFilterCategory = (category: Category | 'all') => {
@@ -27,6 +29,7 @@ const Projects = ({ allProjects }) => {
     setProjects(newArray);
     setActive(category);
   };
+
   return (
     <motion.div
       variants={routeAnimation}
@@ -51,11 +54,11 @@ const Projects = ({ allProjects }) => {
           return (
             <motion.div
               variants={fadeInAnimation}
-              key={project.id}
+              key={project._id.$oid}
               className='col-span-12 p-2 bg-gray-200 rounded-lg sm:col-span-6 lg:col-span-4 dark:bg-dark-200'
             >
               <ProjectCard
-                key={project.id}
+                key={project._id.$oid}
                 project={project}
                 showDetail={showDetail}
                 setShowDetail={setShowDetail}
@@ -70,34 +73,17 @@ const Projects = ({ allProjects }) => {
 export default Projects;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const driver = await dbConnect();
-  const session = driver.session();
-  const allProjects = [];
-  const queryForProjects =
-    'MATCH (projects:PROJECT)-[using:USING]->(skill:SKILL) RETURN projects,skill,using';
-  try {
-    const readResult = await session.readTransaction((tx) =>
-      tx.run(queryForProjects)
-    );
-
-    readResult.records.forEach((record) => {
-      const project = record.get('projects');
-      const skill = record.get('skill');
-      const tags = record.get('using');
-      allProjects.push({
-        ...project.properties,
-        id: project.identity.low,
-        category: skill.properties.name,
-        techTags: tags.properties.tags.split(','),
-      });
-    });
-  } catch {}
-  await session.close();
-  await driver.close();
+  const PROJECT_URL = 'http://localhost:8000/projects';
+  const allProjectss = [];
+  const res = await fetch(PROJECT_URL);
+  const data = await res.json();
+  for (let i = 0; i < data.length; i++) {
+    allProjectss.push(data[i]);
+  }
   return {
     props: {
-      allProjects,
+      allProjectss,
     },
-    revalidate: 3600,
+    revalidate: 43200,
   };
 }

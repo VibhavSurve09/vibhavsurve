@@ -35,4 +35,7 @@ yarn-error.log*
 
 #Workflow
 
+#Cargo
+
 /backend/vibhav_api/target
+/backend/vibhav_api/.env

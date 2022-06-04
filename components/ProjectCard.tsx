@@ -8,13 +8,13 @@ import { motion } from 'framer-motion';
 import { fadeInAnimation, staggerAnimation } from '../animations';
 
 const ProjectCard: FunctionComponent<{
-  project: IProjects;
+  project: any;
   showDetail: null | number;
-  setShowDetail: (id: number | null) => void;
+  setShowDetail: (id: any | null) => void;
 }> = ({
   project: {
     name,
-    id,
+    _id: { $oid },
     image_path,
     deployed_url,
     category,
@@ -31,14 +31,14 @@ const ProjectCard: FunctionComponent<{
         src={image_path}
         alt={name}
         className='cursor-pointer'
-        onClick={() => setShowDetail(id)}
+        onClick={() => setShowDetail($oid)}
         layout='responsive'
         height={150}
         width='300'
       />
       <p className='my-2 text-center'>{name}</p>
 
-      {showDetail === id && (
+      {showDetail === $oid && (
         <motion.div
           variants={staggerAnimation}
           initial='initial'
