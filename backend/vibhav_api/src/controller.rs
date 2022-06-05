@@ -1,6 +1,10 @@
 use actix_web::{get, post, web, HttpResponse, Responder};
 use futures::stream::TryStreamExt;
-use mongodb::{bson::doc, options::ClientOptions, Client, Collection};
+use mongodb::{
+    bson::doc,
+    options::{ClientOptions, FindOptions},
+    Client, Collection,
+};
 use std::sync::Mutex;
 const MONGO_DB: &str = "VibhavDB";
 const SERVICE_COLLECTION: &str = "services";
@@ -60,7 +64,8 @@ async fn get_all_projects(data: web::Data<Mutex<Client>>) -> impl Responder {
         .database(MONGO_DB)
         .collection(PROJECT_COLLECTION);
     let mut projects: Vec<bson::Document> = Vec::new();
-    let mut cursor = service_collection.find(None, None).await.unwrap();
+    let find_options: FindOptions = FindOptions::builder().sort(doc! {"date":-1}).build();
+    let mut cursor = service_collection.find(None, find_options).await.unwrap();
     while let Some(project) = cursor.try_next().await.unwrap() {
         projects.push(project);
     }
