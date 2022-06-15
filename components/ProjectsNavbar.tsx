@@ -27,6 +27,7 @@ const ProjectsNavbar: FunctionComponent<{
       <NavItem value='python' {...props} />
       <NavItem value='javascript' {...props} />
       <NavItem value='java' {...props} />
+      <NavItem value='rust' {...props} />
     </div>
   );
 };

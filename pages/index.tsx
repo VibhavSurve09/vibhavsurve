@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { motion } from 'framer-motion';
 import {
   fadeInAnimation,
@@ -17,8 +18,11 @@ export default function Home({ servicesData }) {
       className='flex flex-col flex-grow px-6 pt-1'
     >
       <h5 className='my-3 font-medium'>
-        Hola, I am Vibhav Surve, currently I am pursuing my B.Sc Degree (Final
-        Year) in Information Technology.
+        Hey folks! I am Vibhav, an I.T garduate from St Xavier's College. I find
+        Backend engineering, Cloud & Networking, Artifical Intelligence very
+        interesting and I keep myself updated with the trendzz. In my free time
+        you'll find me listening music, playing games or experimenting with new
+        tech.
       </h5>
       <div
         className='flex-grow p-4 mt-5 bg-gray-400 dark:bg-dark-100'
@@ -60,6 +64,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     props: {
       servicesData,
     },
-    revalidate: 43200,
+    revalidate: 3600,
   };
 }

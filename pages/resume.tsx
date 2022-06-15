@@ -30,8 +30,8 @@ const Resume = ({ allSkills, allSoftwares }) => {
               St Xaviers College Mumbai (2019-2022)
             </p>
             <p className='my-3'>
-              I am currently pursuing my Bachelors degree in Information
-              Technology, having a C.G.P.A of 9.1 from St Xaviers College.
+              I recently completed my Bachelors degree in Information
+              Technology, with a C.G.P.A of 9.17 from St Xaviers College.
             </p>
           </div>
         </motion.div>
@@ -47,7 +47,7 @@ const Resume = ({ allSkills, allSoftwares }) => {
               Technical Content Creator (May 2021-October 2021)
             </p>
             <p className='my-3'>
-              Create videos that were based on Machine Learning and Python at
+              Created videos that were based on Machine Learning and Python at
               <a
                 target='_blank'
                 href='https://www.youtube.com/c/ProfessionalCipher'
@@ -106,6 +106,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       allSkills,
       allSoftwares,
     },
-    revalidate: 43200,
+    revalidate: 3600,
   };
 }

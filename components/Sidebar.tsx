@@ -16,13 +16,9 @@ const Sidebar = () => {
   useEffect(() => {
     init(textRef.current, {
       showCursor: false,
-      backDelay: 1000,
-      strings: [
-        'Web Developer',
-        'Python Developer',
-        'Analyst',
-        'Content Creator',
-      ],
+      typeSpeed: 150,
+      backDelay: 5000,
+      strings: ['Tech Enthusiast', 'Developer'],
     });
   }, []);
   const changeTheme = (e) => {

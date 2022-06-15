@@ -22,4 +22,4 @@ export interface IProjects{
   techTags:string[]
 }
 
-export type Category= "upcoming"|"python"|"javascript"|"java"
+export type Category= "upcoming"|"python"|"javascript"|"java"|"rust"
