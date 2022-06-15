@@ -52,21 +52,11 @@ Start the server
   yarn dev
 ```
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file. Refrence shown in .env.example
-
-`URI=`
-
-`DB_USER=`
-
-`PASSWORD=`
-
 ## Tech Stack
 
 **Client:** Nextjs, TailwindCSS
 
-**Database:** Neo4j
+**Database:** MongoDB
 
 **Web Server:** Nginx
 
